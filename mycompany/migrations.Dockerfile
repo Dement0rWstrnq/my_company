@@ -10,12 +10,12 @@ WORKDIR /app
 
 FROM python:$PYTHON_VERSION as final
 
-EXPOSE 8000
+ADD requirements.migrations.txt ./
 
-ADD . /app
+RUN pip install -r requirements.migrations.txt
 
-RUN rm -rf /app/migrations
-RUN rm -f /app/alembic.ini
+ADD migrations /migrations
+ADD alembic.ini ./
 
-ENTRYPOINT ["python", "run.py"]
-CMD []
+ENTRYPOINT ["alembic"]
+CMD ["upgrade", "head"]
