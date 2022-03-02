@@ -1,10 +1,12 @@
 from uuid import UUID
+from datetime import datetime
 
-from .worker import Worker
 from .base import BaseModel
 
 
 class Department(BaseModel):
     id: UUID
     name: str
-    # worker: Worker
+    created_at: datetime
+    updated_at: datetime
+
