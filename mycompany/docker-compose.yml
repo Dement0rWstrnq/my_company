@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:14.1
+    command: "postgres -c 'max_connections=100' -c 'client_min_messages=warning'"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "mycompany"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  migrations:
+    build:
+      context: migrations.Dockerfile
+      target: final
+    image: alembic
+    environment:
+      APP_PG_URL: postgresql://postgres:postgres@postgres:5432/mycompany
+    entrypoint: ["alembic"]
+    command: ["upgrade", "head"]
+    depends_on:
+      - postgres
+
+  application:
+    build:
+      context: .
+      target: final
+    image: fastapi
+    ports:
+      - 8000:8000
+    environment:
+      APP_PG_URL: postgresql://postgres:postgres@postgres:5432/mycompany
+      APP_HOST: 0.0.0.0
+    entrypoint: ["python", "run.py"]
+    command: []
+    depends_on:
+      - migrations
+volumes:
+  pgdata:
