@@ -15,28 +15,19 @@ services:
 
   migrations:
     build:
-      context: migrations.Dockerfile
-      target: final
-    image: alembic
-    environment:
-      APP_PG_URL: postgresql://postgres:postgres@postgres:5432/mycompany
+      context: .
+      dockerfile: migrations.Dockerfile
     entrypoint: ["alembic"]
     command: ["upgrade", "head"]
     depends_on:
       - postgres
 
-  application:
+  fastapi_application:
     build:
       context: .
-      target: final
-    image: fastapi
+      dockerfile: Dockerfile
     ports:
-      - 8000:8000
-    environment:
-      APP_PG_URL: postgresql://postgres:postgres@postgres:5432/mycompany
-      APP_HOST: 0.0.0.0
-    entrypoint: ["python", "run.py"]
-    command: []
+      - "8000:8000"
     depends_on:
       - migrations
 volumes:
