@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 
-engine = create_engine("postgresql://postgres:postgres@localhost/mycompany")
+engine = create_engine("postgresql://postgres:postgres@postgres/mycompany")
 Session = sessionmaker(bind=engine)
 
 

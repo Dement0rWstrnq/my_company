@@ -185,12 +185,9 @@ class Position(BaseModel):
 
 if __name__ == '__main__':
     with session_scope() as session:
-        position = session.query(tables.Position).first()
-        print(position)
-
-        p = Position.from_orm(position)
-        print(p.json())
-
+        result = select(tables.Position)
+        result = session.scalars(result)
+        print(result)
 
         # w = tables.Worker(
         #     name='Vasya',

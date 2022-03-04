@@ -10,3 +10,8 @@ class Department(BaseModel):
     created_at: datetime
     updated_at: datetime
 
+    class New(BaseModel):
+        name: str
+
+    class Update(BaseModel):
+        name: str
