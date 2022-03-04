@@ -74,6 +74,16 @@ def del_position_id(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Position {position_id} not found")
 
 
+@router.get("/positions/{position_id}/workers", response_model=list[dto.Worker])
+def get_position_workers(
+        position_id: UUID,
+        db: Session = Depends(db_session)
+) -> list[dto.Worker]:
+    result = select(tables.Worker).where(tables.Worker.position_id == position_id)
+    result = db.scalars(result).all()
+    return result
+
+
 
 
 

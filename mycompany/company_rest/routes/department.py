@@ -72,3 +72,15 @@ def del_department_id(
         return result
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Position {department_id} not found")
+
+
+@router.get("/departments/{department_id}/workers", response_model=list[dto.Worker])
+def get_position_workers(
+        department_name: str,
+        db: Session = Depends(db_session)
+) -> list[dto.Worker]:
+    result = select(tables.Worker)\
+        .join(tables.Department, tables.Worker.department_id == tables.Department.id)\
+        .where(tables.Department.name == department_name)
+    result = db.scalars(result).all()
+    return result
