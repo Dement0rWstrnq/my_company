@@ -25,8 +25,8 @@ class Worker(BaseModel):
         skills: list[UUID] | list = []
 
     class Update(BaseModel):
-        name: str
-        surname: str
-        department_id: UUID
-        position_id: UUID
+        name: str | None
+        surname: str | None
+        department_id: UUID | None
+        position_id: UUID | None
         skills: list[UUID] | list = []

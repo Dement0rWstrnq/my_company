@@ -11,7 +11,7 @@ class Skill(Base):
         UUID(as_uuid=True),
         primary_key=True,
         server_default=sa.func.uuid_generate_v1(),
-        nullable=False
+        nullable=False,
     )
     name = sa.Column(sa.String, nullable=False)
     description = sa.Column(sa.String, nullable=False)

@@ -12,8 +12,8 @@ from sqlalchemy.dialects.postgresql import UUID
 
 
 # revision identifiers, used by Alembic.
-revision = 'ff97ba0063d5'
-down_revision = 'e70c468b5abf'
+revision = "ff97ba0063d5"
+down_revision = "e70c468b5abf"
 branch_labels = None
 depends_on = None
 
@@ -25,15 +25,21 @@ def upgrade():
             "id", UUID, primary_key=True, server_default=sa.func.uuid_generate_v1()
         ),
         sa.Column("name", sa.String, nullable=False),
-        sa.Column("created_at", sa.DateTime(), nullable=False, server_default=sa.func.now()),
-        sa.Column("updated_at", sa.DateTime(), nullable=False, server_default=sa.func.now()),
+        sa.Column(
+            "created_at", sa.DateTime(), nullable=False, server_default=sa.func.now()
+        ),
+        sa.Column(
+            "updated_at", sa.DateTime(), nullable=False, server_default=sa.func.now()
+        ),
     )
 
-    op.execute("""
+    op.execute(
+        """
     CREATE TRIGGER positions_updated_at_trigger
     BEFORE UPDATE ON positions
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-    """)
+    """
+    )
 
     op.create_table(
         "workers",
@@ -54,32 +60,48 @@ def upgrade():
             ForeignKey("positions.id", ondelete="CASCADE", onupdate="CASCADE"),
             nullable=False,
         ),
-        sa.Column("created_at", sa.DateTime(), nullable=False, server_default=sa.func.now()),
-        sa.Column("updated_at", sa.DateTime(), nullable=False, server_default=sa.func.now()),
+        sa.Column(
+            "created_at", sa.DateTime(), nullable=False, server_default=sa.func.now()
+        ),
+        sa.Column(
+            "updated_at", sa.DateTime(), nullable=False, server_default=sa.func.now()
+        ),
     )
 
-    op.execute("""
+    op.execute(
+        """
     CREATE TRIGGER workers_updated_at_trigger
     BEFORE UPDATE ON workers
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-    """)
+    """
+    )
 
     op.create_table(
         "skills",
         sa.Column(
-            "id", UUID, primary_key=True, server_default=sa.func.uuid_generate_v1(), nullable=False
+            "id",
+            UUID,
+            primary_key=True,
+            server_default=sa.func.uuid_generate_v1(),
+            nullable=False,
         ),
         sa.Column("name", sa.String, nullable=False),
         sa.Column("description", sa.String, nullable=False),
-        sa.Column("created_at", sa.DateTime(), nullable=False, server_default=sa.func.now()),
-        sa.Column("updated_at", sa.DateTime(), nullable=False, server_default=sa.func.now()),
+        sa.Column(
+            "created_at", sa.DateTime(), nullable=False, server_default=sa.func.now()
+        ),
+        sa.Column(
+            "updated_at", sa.DateTime(), nullable=False, server_default=sa.func.now()
+        ),
     )
 
-    op.execute("""
+    op.execute(
+        """
     CREATE TRIGGER skills_updated_at_trigger
     BEFORE UPDATE ON skills
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-    """)
+    """
+    )
 
     op.create_table(
         "worker_skills",
@@ -97,7 +119,9 @@ def upgrade():
             nullable=False,
             primary_key=True,
         ),
-        sa.Column("created_at", sa.DateTime(), nullable=False, server_default=sa.func.now()),
+        sa.Column(
+            "created_at", sa.DateTime(), nullable=False, server_default=sa.func.now()
+        ),
     )
 
 

@@ -183,7 +183,7 @@ class Position(BaseModel):
         orm_mode = True
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     with session_scope() as session:
         result = select(tables.Position)
         result = session.scalars(result)

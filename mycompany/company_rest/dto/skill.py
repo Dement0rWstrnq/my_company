@@ -13,8 +13,8 @@ class Skill(BaseModel):
 
     class New(BaseModel):
         name: str
-        description: str
+        description: str | None
 
     class Update(BaseModel):
-        name: str
-        description: str
+        name: str | None
+        description: str | None

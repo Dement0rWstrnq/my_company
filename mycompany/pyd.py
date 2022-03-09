@@ -6,9 +6,7 @@ class User(BaseModel):
     age: int = Field(alias="user_age", default=20)
 
 
-user = {
-    "login": "asdas"
-}
+user = {"login": "asdas"}
 
 
 u = User(**user)

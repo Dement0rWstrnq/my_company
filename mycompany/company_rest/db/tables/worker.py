@@ -11,7 +11,9 @@ from ..base import Base
 class Worker(Base):
     __tablename__ = "workers"
 
-    id = sa.Column(UUID(as_uuid=True), primary_key=True, server_default=sa.func.uuid_generate_v1())
+    id = sa.Column(
+        UUID(as_uuid=True), primary_key=True, server_default=sa.func.uuid_generate_v1()
+    )
     name = sa.Column(sa.String, nullable=False)
     surname = sa.Column(sa.String, nullable=False)
     department_id = sa.Column(
@@ -50,17 +52,3 @@ class Worker(Base):
 
     def __repr__(self):
         return f"<Worker id={self.id}>"
-
-
-# @event.listens_for(Worker, 'after_insert')
-# def receive_after_bulk_delete(mapper, connection, worker):
-#     from .skill import Skill
-#     from .worker_skill import WorkerSkill
-#
-#     session = object_session(worker)
-#
-#     skill = session.query(Skill).filter_by(name="Стрессоустойчивость").one()
-#
-#     ws = WorkerSkill(worker_id=worker.id, skill_id=skill.id)
-#
-#     session.add(ws)
